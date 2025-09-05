@@ -212,6 +212,18 @@ public class SudokuUI : MonoBehaviour
         GameSettings.RemainingTime = remainingTime;
     }
 
+    public void AddExtraTime(float seconds)
+    {
+        remainingTime += seconds;
+        GameSettings.RemainingTime = remainingTime;
+
+        int minutes = Mathf.FloorToInt(remainingTime / 60);
+        int sec = Mathf.FloorToInt(remainingTime % 60);
+        if (timerText != null)
+            timerText.text = $"{minutes:00}:{sec:00}";
+    }
+
+
     public void PauseTimer() => timerRunning = false;
     public void ResumeTimer() { if (remainingTime > 0f) timerRunning = true; }
     public void ResetTimer() => StartTimerForDifficulty();
@@ -509,6 +521,12 @@ public class SudokuUI : MonoBehaviour
             hintButton.GetComponent<Image>().sprite = hintNormalSprite;
 
         ResetTimer();
+        if (successPanel != null) successPanel.SetActive(false);
+        if (gameOverPanel != null) gameOverPanel.SetActive(false);
+
+        BoardPanel boardPanel = successPanel?.GetComponent<BoardPanel>() ?? successPanel?.GetComponentInChildren<BoardPanel>(true);
+        if (boardPanel != null)
+            boardPanel.ResetPanel();
     }
 
     public void HighlightWrongCells()

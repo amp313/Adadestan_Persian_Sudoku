@@ -192,6 +192,8 @@ public class GameOverPanel : MonoBehaviour
                 {
                     sudokuUI.HighlightWrongCells();
                     sudokuUI.ResumeTimer();
+                    sudokuUI.ResumeTimer();
+                    sudokuUI.AddExtraTime(120f);
                 }
                 Hide();
             },
